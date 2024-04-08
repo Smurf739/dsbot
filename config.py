@@ -1,0 +1,3 @@
+voice_create_channel = 1226926890518970449
+guild = [1226910223692992555]
+category_voice_create = 1226925685239709736
