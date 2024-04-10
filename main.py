@@ -10,6 +10,9 @@ load_dotenv(find_dotenv())
 token = os.getenv("TOKEN")
 from load import load
 
+load_dotenv(find_dotenv())
+token = os.getenv("TOKEN")
+
 bot = commands.Bot(command_prefix='!',
                    intents=disnake.Intents.all(),
                    activity=disnake.Game("VS code"),
