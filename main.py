@@ -4,15 +4,24 @@ import disnake
 from disnake.ext import commands
 from dotenv import load_dotenv, find_dotenv
 from config import guild
+import database
 
 load_dotenv(find_dotenv())
 token = os.getenv("TOKEN")
+from load import load
 
 bot = commands.Bot(command_prefix='!',
                    intents=disnake.Intents.all(),
                    activity=disnake.Game("VS code"),
                    status=disnake.Status.online,
                    test_guilds=guild)
+
+
+@bot.event
+async def on_ready():
+    this_guild = bot.get_guild(guild[0])
+    await load(bot).create_channels(this_guild)
+    await database.crate_table()
 
 
 for file in os.listdir('./cogs'):

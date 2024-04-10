@@ -1,3 +1,5 @@
-voice_create_channel = 1226926890518970449
+voice_create_channel = None
+category_voice_create = None
+voice_settings_channel = None
 guild = [1226910223692992555]
-category_voice_create = 1226925685239709736
+
