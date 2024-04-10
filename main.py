@@ -4,7 +4,7 @@ import disnake
 from disnake.ext import commands
 from dotenv import load_dotenv, find_dotenv
 from config import guild
-import database
+from database import VoiceDb
 from load import load
 
 load_dotenv(find_dotenv())
@@ -22,7 +22,7 @@ bot = commands.Bot(command_prefix='!',
 async def on_ready():
     this_guild = bot.get_guild(guild[0])
     await load(bot).create_channels(this_guild)
-    await database.crate_table()
+    await VoiceDb().crate_table()
 
 
 for file in os.listdir('./cogs'):

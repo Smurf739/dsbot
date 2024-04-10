@@ -2,7 +2,7 @@ import datetime
 
 import disnake
 from disnake.ext import commands
-import database
+from database import VoiceDb
 
 
 mychannel = None
@@ -25,7 +25,7 @@ class UserHandler(commands.Cog):
                 print(type(date_created))
                 print(date_created)
                 await member.move_to(mychannel)
-                await database.create_room_info(voice_i=mychannel.id,
+                await VoiceDb().create_room_info(voice_i=mychannel.id,
                                                 voice_n=mychannel.name,
                                                 date=date_created,
                                                 owner=member.id)
@@ -33,7 +33,7 @@ class UserHandler(commands.Cog):
         except AttributeError:
             if before.channel == mychannel:
                 if len(before.channel.members) == 0:
-                    await database.remove_room(before.channel.id)
+                    await VoiceDb().remove_room(before.channel.id)
                     await before.channel.delete()
             else:
                 pass
