@@ -1,6 +1,5 @@
 import disnake
 from disnake.ext import commands
-from config import voice_create_channel, category_voice_create, guild
 
 
 mychannel = None
@@ -11,6 +10,7 @@ class UserHandler(commands.Cog):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self,member, before, after):
+        from config import voice_create_channel
         global mychannel
         try:
             if after.channel.id == voice_create_channel:

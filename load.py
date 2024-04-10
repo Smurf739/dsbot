@@ -1,13 +1,13 @@
 from disnake.ext import commands
 import disnake
-from config import category_voice_create, voice_create_channel, \
-    voice_settings_channel
+import config
 
 async def text_func(category=None, settings_room=None):
     if settings_room is None:
         settings_room = await category.create_text_channel(
             name="Настройка "
                  "комнаты")
+        config.voice_settings_channel = settings_room.id
     else:
         a = [message async for message in settings_room.history()]
         await settings_room.purge(limit=len(a))
@@ -34,13 +34,10 @@ async def text_func(category=None, settings_room=None):
     await settings_room.send(embed=embed)
 
 async def create(this_guild):
-    global voice_settings_channel
-    global voice_create_channel
-    global category_voice_create
 
     category = await this_guild.create_category(
         name="Приватные комнаты")
-    category_voice_create = category.id
+    config.category_voice_create = category.id
 
     settings_room = await category.create_text_channel(
         name="Настройка "
@@ -50,8 +47,8 @@ async def create(this_guild):
 
     voice_room = await category.create_voice_channel(
         name="Создать комнату")
-    voice_settings_channel = settings_room.id
-    voice_create_channel = voice_room.id
+    config.voice_settings_channel = settings_room.id
+    config.voice_create_channel = voice_room.id
 
     embed = disnake.Embed(
         title="📦 Настройка комнаты",
@@ -84,25 +81,22 @@ class load():
         is_voice = False
         is_text = False
         is_category = False
-        global category_voice_create
-        global voice_settings_channel
-        global voice_create_channel
         category = None
         for i in this_guild.categories:
             if i.name == "Приватные комнаты" or i.name == "Private rooms":
                 category = i
                 print(i, category)
                 is_category = True
-                category_voice_create = i.id
+                config.category_voice_create = i.id
                 for j in i.channels:
                     if j.name.lower() == "настройка-комнаты":
-                        voice_settings_channel = j.id
+                        config.voice_settings_channel = j.id
                         is_text = True
                         await text_func(i, j)
 
 
                     elif j.name.lower() == "создать комнату":
-                        voice_create_channel = j.id
+                        config.voice_create_channel = j.id
                         is_voice = True
 
                 break
@@ -112,9 +106,7 @@ class load():
         elif is_voice is False:
             voice_room = await category.create_voice_channel(
                 name="Создать комнату")
-            voice_create_channel = voice_room.id
+            config.voice_create_channel = voice_room.id
         elif is_text is False:
             await text_func(category)
-
-        print(category_voice_create, voice_create_channel, voice_settings_channel)
 
