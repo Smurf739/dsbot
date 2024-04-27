@@ -1,8 +1,7 @@
 import datetime
 
-import disnake
 from disnake.ext import commands
-from database import VoiceDb
+from database.roomsdb import VoiceDb
 
 
 mychannel = None

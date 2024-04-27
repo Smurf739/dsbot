@@ -1,6 +1,6 @@
 import disnake
 
-from database import VoiceDb
+from database.roomsdb import VoiceDb
 from utils.functions import get_time_now
 
 
